@@ -89,32 +89,29 @@ if button:
     with st.spinner("🤖 AI is analyzing your Monday workspace..."):
 
         try:
+            API_URL = "https://skylark-bi-agent-zdeq.onrender.com/ask"
 
             response = requests.post(
-                "http://127.0.0.1:8000/ask",
-                json={
-                    "question": question
-                },
+                API_URL,
+                json={"question": question},
                 timeout=60
             )
 
         except Exception:
-
             st.error("Backend not running.")
             st.stop()
 
     if response.status_code != 200:
-
         st.error(response.text)
         st.stop()
 
     result = response.json()
 
-    answer = result.get("answer","")
+    answer = result.get("answer", "")
+    details = result.get("details", {})
 
-    details = result.get("details",{})
-
-    st.markdown(f"""
+    st.markdown(
+        f"""
 <div class="response-box">
 
 ### 🤖 AI Business Insight
@@ -122,49 +119,66 @@ if button:
 {answer}
 
 </div>
-""", unsafe_allow_html=True)
+""",
+        unsafe_allow_html=True,
+    )
 
-    if isinstance(details,dict) and "work_orders" in details and "deals" in details:
+    if (
+        isinstance(details, dict)
+        and "work_orders" in details
+        and "deals" in details
+    ):
 
         work = details["work_orders"]
-
         deals = details["deals"]
 
         st.markdown("## 📈 Executive Dashboard")
 
-        c1,c2,c3,c4 = st.columns(4)
+        c1, c2, c3, c4 = st.columns(4)
 
         with c1:
-            st.markdown(f"""
+            st.markdown(
+                f"""
 <div class="metric-card">
 <div class="metric-title">💼 Work Orders</div>
 <div class="metric-value">{work['total_work_orders']}</div>
 </div>
-""",unsafe_allow_html=True)
+""",
+                unsafe_allow_html=True,
+            )
 
         with c2:
-            st.markdown(f"""
+            st.markdown(
+                f"""
 <div class="metric-card">
 <div class="metric-title">🤝 Deals</div>
 <div class="metric-value">{deals['total_deals']}</div>
 </div>
-""",unsafe_allow_html=True)
+""",
+                unsafe_allow_html=True,
+            )
 
         with c3:
-            st.markdown(f"""
+            st.markdown(
+                f"""
 <div class="metric-card">
 <div class="metric-title">✅ Won Deals</div>
-<div class="metric-value">{deals['deal_status'].get('Won',0)}</div>
+<div class="metric-value">{deals['deal_status'].get('Won', 0)}</div>
 </div>
-""",unsafe_allow_html=True)
+""",
+                unsafe_allow_html=True,
+            )
 
         with c4:
-            st.markdown(f"""
+            st.markdown(
+                f"""
 <div class="metric-card">
 <div class="metric-title">📂 Open Deals</div>
-<div class="metric-value">{deals['deal_status'].get('Open',0)}</div>
+<div class="metric-value">{deals['deal_status'].get('Open', 0)}</div>
 </div>
-""",unsafe_allow_html=True)
+""",
+                unsafe_allow_html=True,
+            )
 
         st.divider()
                 # =====================================================
