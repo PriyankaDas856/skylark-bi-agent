@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 
-from backend.config import (
+from config import (
     MONDAY_API_KEY,
     WORK_ORDERS_BOARD_ID,
     DEALS_BOARD_ID,

@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from backend.monday_client import get_work_orders, get_deals
-from backend.data_normalizer import DataNormalizer
-from backend.agent import BusinessIntelligenceAgent
+from monday_client import get_work_orders, get_deals
+from data_normalizer import DataNormalizer
+from agent import BusinessIntelligenceAgent
 
 app = FastAPI(
     title="Business Intelligence Agent",

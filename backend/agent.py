@@ -1,7 +1,6 @@
-from backend.analytics import Analytics
-from backend.cross_reference import CrossReference
-from backend.data_quality import DataQuality
-
+from analytics import Analytics
+from cross_reference import CrossReference
+from data_quality import DataQuality
 
 class BusinessIntelligenceAgent:
 
